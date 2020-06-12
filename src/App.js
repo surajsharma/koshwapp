@@ -41,7 +41,7 @@ const App = () => {
       reader.onloadend = e => {
         const arrayBuffer = e.target.result;
         const jszip = new JSZip();
-        const zipFileName = file.name.replace('.zip', '') + '/';
+        let zipFileName = `${file.name.replace('.zip', '/')}`;
 
         jszip
           .loadAsync(arrayBuffer)
