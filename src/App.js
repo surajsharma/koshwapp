@@ -4,6 +4,7 @@ import { parseString } from 'whatsapp-chat-parser';
 
 import Dropzone from './components/Dropzone/Dropzone';
 import MessageViewer from './components/MessageViewer/MessageViewer';
+import ContextActionBar from './components/ContextActionsBar/ContextActionBar';
 
 import * as S from './style';
 
@@ -56,12 +57,10 @@ const App = () => {
 
             mediaFiles.forEach(([, image]) => {
               image.async('blob').then(blob => {
-                if (blob.size > 1324) {
-                  const img = new Image();
-                  img.name = image.name.replace(zipFileName, '');
-                  img.src = URL.createObjectURL(blob);
-                  setMedia(media => media.concat(img));
-                }
+                const img = new Image();
+                img.name = image.name.replace(zipFileName, '');
+                img.src = URL.createObjectURL(blob);
+                setMedia(media => media.concat(img));
               });
             });
           })
@@ -102,7 +101,6 @@ const App = () => {
 
   useEffect(() => {
     if (isFirstRender.current) return;
-
     if (isMenuOpen) closeButtonRef.current.focus();
     else openButtonRef.current.focus();
   }, [isMenuOpen]);
@@ -115,7 +113,6 @@ const App = () => {
     const keyDownHandler = e => {
       if (e.keyCode === 27) closeMenu();
     };
-
     document.addEventListener('keydown', keyDownHandler);
     return () => document.removeEventListener('keydown', keyDownHandler);
   }, []);
@@ -127,7 +124,7 @@ const App = () => {
         <S.Header>
           <Dropzone onFileUpload={processFile} id="dropzone" />
         </S.Header>
-
+        <ContextActionBar visible />
         <MessageViewer
           media={media}
           messages={messages}
