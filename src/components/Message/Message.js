@@ -11,7 +11,13 @@ const intlOptions = {
   minute: 'numeric',
 };
 
-const Message = ({ message, color, isActiveUser, sameAuthorAsPrevious }) => {
+const Message = ({
+  media,
+  message,
+  color,
+  isActiveUser,
+  sameAuthorAsPrevious,
+}) => {
   const isSystem = message.author === 'System';
   const dateTime = message.date
     .toISOString()
@@ -29,6 +35,8 @@ const Message = ({ message, color, isActiveUser, sameAuthorAsPrevious }) => {
           {!isSystem && !sameAuthorAsPrevious && (
             <S.Author color={color}>{message.author}</S.Author>
           )}
+
+          {media ? <img src={media.src} alt="img" width="200px" /> : null}
           <S.Message>{message.message}</S.Message>
         </S.Wrapper>
         {!isSystem && (
@@ -49,6 +57,7 @@ Message.propTypes = {
     author: PropTypes.string,
     message: PropTypes.string,
   }).isRequired,
+  media: PropTypes.objectOf(PropTypes.object),
   color: PropTypes.string,
   isActiveUser: PropTypes.bool,
   sameAuthorAsPrevious: PropTypes.bool,
@@ -58,6 +67,7 @@ Message.defaultProps = {
   color: 'black',
   isActiveUser: false,
   sameAuthorAsPrevious: false,
+  media: null,
 };
 
 export default Message;

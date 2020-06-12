@@ -31,11 +31,20 @@ const MessageViewer = ({ media, messages, limit }) => {
       <S.List>
         {renderedMessages.map((message, i, arr) => {
           const prevMessage = arr[i - 1];
+          let attachedMedia = null;
+          if (media.length) {
+            media.forEach(jpeg => {
+              if (message.message.includes(jpeg.name)) {
+                attachedMedia = jpeg;
+              }
+            });
+          }
 
           return (
             <Message
               key={i} // eslint-disable-line react/no-array-index-key
               message={message}
+              media={attachedMedia}
               color={colorMap[message.author]}
               isActiveUser={activeUser === message.author}
               sameAuthorAsPrevious={
@@ -57,11 +66,13 @@ MessageViewer.propTypes = {
       message: PropTypes.string,
     }),
   ).isRequired,
+  media: PropTypes.arrayOf(PropTypes.object),
   limit: PropTypes.number,
 };
 
 MessageViewer.defaultProps = {
   limit: Infinity,
+  media: null,
 };
 
 export default React.memo(MessageViewer);
