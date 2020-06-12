@@ -41,6 +41,7 @@ const App = () => {
       reader.onloadend = e => {
         const arrayBuffer = e.target.result;
         const jszip = new JSZip();
+        const zipFileName = file.name.replace('.zip', '') + '/';
 
         jszip
           .loadAsync(arrayBuffer)
@@ -57,6 +58,7 @@ const App = () => {
               image.async('blob').then(blob => {
                 if (blob.size > 1324) {
                   const img = new Image();
+                  img.name = image.name.replace(zipFileName, '');
                   img.src = URL.createObjectURL(blob);
                   setMedia(media => media.concat(img));
                 }
@@ -125,6 +127,7 @@ const App = () => {
         <S.Header>
           <Dropzone onFileUpload={processFile} id="dropzone" />
         </S.Header>
+
         <MessageViewer
           media={media}
           messages={messages}
