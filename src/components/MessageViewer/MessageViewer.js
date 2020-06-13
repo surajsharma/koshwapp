@@ -11,7 +11,7 @@ import TaggingWindow from '../TaggingWindow/TaggingWindow';
 const MessageViewer = ({ media, messages, limit }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [showTaggingWindow, setShowTaggingWindow] = useState(false);
-  const [allCurrentTags, showAllCurrentTags] = useState([]);
+  const [allCurrentTags, setCurrentTags] = useState([]);
 
   const participants = Array.from(
     new Set(messages.map(({ author }) => author)),
@@ -38,7 +38,7 @@ const MessageViewer = ({ media, messages, limit }) => {
       if (newMessages.indexOf(m) !== -1) {
         newMessages.splice(newMessages.indexOf(m), 1);
       }
-      if (newMessages.length == 0) {
+      if (newMessages.length === 0) {
         setShowTaggingWindow(false);
       }
     }
@@ -63,14 +63,26 @@ const MessageViewer = ({ media, messages, limit }) => {
     }
   };
 
+  const addTags = tags => {
+    // add tags to all currently selected messages
+    // setSelectedMessages(selectedMessages => [...newMessages]);
+    setCurrentTags(allCurrentTags => [...tags]);
+    console.log(tags);
+  };
+
   useEffect(() => {
     if (selectedMessages.length !== 0) {
       console.log('update tags');
-      // messages.forEach(message => {
-      //   console.log(message.id);
-      // });
+      let newTags = allCurrentTags;
+      selectedMessages.forEach(selectedMsg => {
+        messages.forEach(msg => {
+          if (msg.id === selectedMsg) {
+            msg.tags = newTags; /*  */
+          }
+        });
+      });
     }
-  });
+  }, [setCurrentTags, allCurrentTags]);
 
   return (
     <S.Container>
@@ -81,8 +93,11 @@ const MessageViewer = ({ media, messages, limit }) => {
         tagHandler={tagHandler}
         visible={selectedMessages.length <= 0 ? false : true}
       />
+
       <TaggingWindow
-        visible={showTaggingWindow && selectedMessages.length != 0}
+        visible={showTaggingWindow && selectedMessages.length !== 0}
+        tags={allCurrentTags}
+        addTags={addTags}
       />
 
       {messages.length > 0 && (

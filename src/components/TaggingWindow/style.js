@@ -1,5 +1,4 @@
-import styled, { css } from 'styled-components';
-import * as C from '../../utils/colors';
+import styled from 'styled-components';
 
 const Container = styled.div`
   background: #f5eee5;

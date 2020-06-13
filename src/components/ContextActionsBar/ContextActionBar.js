@@ -9,10 +9,6 @@ const ContextActionBar = ({
   deleteHandler,
   tagHandler,
 }) => {
-  const clickhandler = e => {
-    console.log(e.target);
-  };
-
   return visible ? (
     <S.Container>
       <S.Button onClick={uploadHandler}>Upload</S.Button>
@@ -27,6 +23,10 @@ const ContextActionBar = ({
 
 ContextActionBar.propTypes = {
   visible: PropTypes.bool.isRequired,
+  uploadHandler: PropTypes.func.isRequired,
+  linkHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
+  tagHandler: PropTypes.func.isRequired,
 };
 
 ContextActionBar.defaultProps = {};
