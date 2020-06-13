@@ -6,8 +6,12 @@ import * as S from './style';
 
 import { authorColors } from '../../utils/colors';
 import ContextActionBar from '../ContextActionsBar/ContextActionBar';
+import TaggingWindow from '../TaggingWindow/TaggingWindow';
+
 const MessageViewer = ({ media, messages, limit }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
+  const [showTaggingWindow, setShowTaggingWindow] = useState(false);
+  const [allCurrentTags, showAllCurrentTags] = useState([]);
 
   const participants = Array.from(
     new Set(messages.map(({ author }) => author)),
@@ -34,14 +38,53 @@ const MessageViewer = ({ media, messages, limit }) => {
       if (newMessages.indexOf(m) !== -1) {
         newMessages.splice(newMessages.indexOf(m), 1);
       }
+      if (newMessages.length == 0) {
+        setShowTaggingWindow(false);
+      }
     }
     setSelectedMessages(selectedMessages => [...newMessages]);
-    console.log(selectedMessages, newMessages);
   };
+
+  const uploadHandler = e => {
+    console.log(e);
+  };
+
+  const linkHandler = e => {
+    console.log(e);
+  };
+
+  const deleteHandler = e => {
+    console.log(e);
+  };
+
+  const tagHandler = e => {
+    if (selectedMessages.length !== 0) {
+      setShowTaggingWindow(!showTaggingWindow);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMessages.length !== 0) {
+      console.log('update tags');
+      // messages.forEach(message => {
+      //   console.log(message.id);
+      // });
+    }
+  });
 
   return (
     <S.Container>
-      <ContextActionBar visible={selectedMessages.length <= 0 ? false : true} />
+      <ContextActionBar
+        uploadHandler={uploadHandler}
+        linkHandler={linkHandler}
+        deleteHandler={deleteHandler}
+        tagHandler={tagHandler}
+        visible={selectedMessages.length <= 0 ? false : true}
+      />
+      <TaggingWindow
+        visible={showTaggingWindow && selectedMessages.length != 0}
+      />
+
       {messages.length > 0 && (
         <S.P>
           <S.Info>

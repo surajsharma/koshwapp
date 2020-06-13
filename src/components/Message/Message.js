@@ -17,7 +17,6 @@ const Message = ({
   color,
   isActiveUser,
   sameAuthorAsPrevious,
-  selectedMessages,
   onselect,
 }) => {
   const [check, setCheck] = useState(true);
@@ -41,12 +40,12 @@ const Message = ({
         sameAuthorAsPrevious={sameAuthorAsPrevious}
       >
         <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
+          <Checkbox checked={check} onChange={handleCheck} />{' '}
           <S.Wrapper>
             <S.MessageTop>
               {!isSystem && !sameAuthorAsPrevious && (
                 <S.Author color={color}>{message.author}</S.Author>
               )}
-              <Checkbox checked={check} onChange={handleCheck} />
             </S.MessageTop>
             {media ? <img src={media.src} alt="img" width="200px" /> : null}
             <S.Message>{message.message}</S.Message>
