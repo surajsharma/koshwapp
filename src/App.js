@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import JSZip from 'jszip';
 import { parseString } from 'whatsapp-chat-parser';
+import { uuid } from 'uuidv4';
 
 import Dropzone from './components/Dropzone/Dropzone';
 import MessageViewer from './components/MessageViewer/MessageViewer';
-import ContextActionBar from './components/ContextActionsBar/ContextActionBar';
 
 import * as S from './style';
 
@@ -15,9 +15,12 @@ const showError = (message, err) => {
   alert(message); // eslint-disable-line no-alert
 };
 
+let messagesHaveIds = false;
+
 const App = () => {
   const [messages, setMessages] = useState([]);
   const [media, setMedia] = useState([]);
+
   const [messagesLimit, setMessagesLimit] = useState(100);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -42,7 +45,7 @@ const App = () => {
       reader.onloadend = e => {
         const arrayBuffer = e.target.result;
         const jszip = new JSZip();
-        let zipFileName = `${file.name.replace('.zip', '/')}`;
+        const zipFileName = `${file.name.replace('.zip', '/')}`;
 
         jszip
           .loadAsync(arrayBuffer)
@@ -60,7 +63,7 @@ const App = () => {
                 const img = new Image();
                 img.name = image.name.replace(zipFileName, '');
                 img.src = URL.createObjectURL(blob);
-                setMedia(media => media.concat(img));
+                setMedia(m => m.concat(img));
               });
             });
           })
@@ -100,6 +103,19 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (messages.length && !messagesHaveIds) {
+      messages.forEach(message => {
+        message.tags = {};
+        message.linksTo = [];
+        message.selected = false;
+        message.id = uuid();
+      });
+
+      messagesHaveIds = true;
+    }
+  });
+
+  useEffect(() => {
     if (isFirstRender.current) return;
     if (isMenuOpen) closeButtonRef.current.focus();
     else openButtonRef.current.focus();
@@ -113,6 +129,7 @@ const App = () => {
     const keyDownHandler = e => {
       if (e.keyCode === 27) closeMenu();
     };
+
     document.addEventListener('keydown', keyDownHandler);
     return () => document.removeEventListener('keydown', keyDownHandler);
   }, []);
@@ -124,7 +141,7 @@ const App = () => {
         <S.Header>
           <Dropzone onFileUpload={processFile} id="dropzone" />
         </S.Header>
-        <ContextActionBar visible />
+
         <MessageViewer
           media={media}
           messages={messages}

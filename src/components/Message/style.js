@@ -65,7 +65,6 @@ const Author = styled.div`
 
 const Message = styled.div`
   ${overflowBreakWord}
-
   white-space: pre-wrap;
 `;
 
@@ -82,4 +81,10 @@ const Date = styled.time`
   }
 `;
 
-export { Item, Bubble, Wrapper, Author, Message, Date };
+const MessageTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 5px 0 5px 0;
+`;
+export { Item, Bubble, Wrapper, Author, Message, Date, MessageTop };

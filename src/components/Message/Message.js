@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
+import Checkbox from '../CheckBox/CheckBox';
 import * as S from './style';
 
 const intlOptions = {
@@ -17,37 +17,50 @@ const Message = ({
   color,
   isActiveUser,
   sameAuthorAsPrevious,
+  selectedMessages,
+  onselect,
 }) => {
+  const [check, setCheck] = useState(true);
+
   const isSystem = message.author === 'System';
   const dateTime = message.date
     .toISOString()
     .slice(0, 19)
     .replace('T', ' ');
 
-  return (
-    <S.Item
-      isSystem={isSystem}
-      isActiveUser={isActiveUser}
-      sameAuthorAsPrevious={sameAuthorAsPrevious}
-    >
-      <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
-        <S.Wrapper>
-          {!isSystem && !sameAuthorAsPrevious && (
-            <S.Author color={color}>{message.author}</S.Author>
-          )}
+  const handleCheck = () => {
+    setCheck(!check);
+    onselect(message.id, check);
+  };
 
-          {media ? <img src={media.src} alt="img" width="200px" /> : null}
-          <S.Message>{message.message}</S.Message>
-        </S.Wrapper>
-        {!isSystem && (
-          <S.Date dateTime={dateTime}>
-            {new Intl.DateTimeFormat('default', intlOptions).format(
-              message.date,
-            )}
-          </S.Date>
-        )}
-      </S.Bubble>
-    </S.Item>
+  return (
+    <>
+      <S.Item
+        isSystem={isSystem}
+        isActiveUser={isActiveUser}
+        sameAuthorAsPrevious={sameAuthorAsPrevious}
+      >
+        <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
+          <S.Wrapper>
+            <S.MessageTop>
+              {!isSystem && !sameAuthorAsPrevious && (
+                <S.Author color={color}>{message.author}</S.Author>
+              )}
+              <Checkbox checked={check} onChange={handleCheck} />
+            </S.MessageTop>
+            {media ? <img src={media.src} alt="img" width="200px" /> : null}
+            <S.Message>{message.message}</S.Message>
+          </S.Wrapper>
+          {!isSystem && (
+            <S.Date dateTime={dateTime}>
+              {new Intl.DateTimeFormat('default', intlOptions).format(
+                message.date,
+              )}
+            </S.Date>
+          )}
+        </S.Bubble>
+      </S.Item>
+    </>
   );
 };
 
