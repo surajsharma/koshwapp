@@ -19,4 +19,3 @@
   - Perform Delete on message(s)
   - Link messages(s)
   - Unlink messages(s)
-  - Tagging message(s)

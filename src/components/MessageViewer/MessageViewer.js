@@ -8,13 +8,21 @@ import { authorColors } from '../../utils/colors';
 import ContextActionBar from '../ContextActionsBar/ContextActionBar';
 import TaggingWindow from '../TaggingWindow/TaggingWindow';
 
-const MessageViewer = ({ media, messages, limit }) => {
+let setDisplayedMessagesFlag = false;
+
+const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [showTaggingWindow, setShowTaggingWindow] = useState(false);
   const [allCurrentTags, setCurrentTags] = useState([]);
+  const [displayedMessages, setDisplayedMessages] = useState([]);
+
+  if (messages.length && !setDisplayedMessagesFlag) {
+    setDisplayedMessagesFlag = true;
+    setDisplayedMessages(messages);
+  }
 
   const participants = Array.from(
-    new Set(messages.map(({ author }) => author)),
+    new Set(displayedMessages.map(({ author }) => author)),
   ).filter(author => author !== 'System');
 
   const activeUser = participants[1];
@@ -23,8 +31,8 @@ const MessageViewer = ({ media, messages, limit }) => {
     return { ...obj, [participant]: authorColors[i % authorColors.length] };
   }, {});
 
-  const renderedMessages = messages.slice(0, limit);
-  const isLimited = renderedMessages.length !== messages.length;
+  const renderedMessages = displayedMessages.slice(0, limit);
+  const isLimited = renderedMessages.length !== displayedMessages.length;
 
   const updateSelectedMessages = (m, check) => {
     let newMessages = selectedMessages;
@@ -42,6 +50,7 @@ const MessageViewer = ({ media, messages, limit }) => {
         setShowTaggingWindow(false);
       }
     }
+    console.log('new message s/u');
     setSelectedMessages(selectedMessages => [...newMessages]);
   };
 
@@ -53,8 +62,20 @@ const MessageViewer = ({ media, messages, limit }) => {
     console.log(e);
   };
 
+  useEffect(() => {
+    console.log('rerender');
+  }, [displayedMessages]);
   const deleteHandler = e => {
-    console.log(e);
+    let newMessages = displayedMessages;
+    selectedMessages.forEach(selectedMsg => {
+      displayedMessages.forEach(msg => {
+        if (msg.id === selectedMsg) {
+          newMessages.splice(newMessages.indexOf(msg), 1);
+        }
+      });
+    });
+    setDisplayedMessages(newMessages);
+    setSelectedMessages(selectedMessages => []);
   };
 
   const tagHandler = e => {
@@ -63,26 +84,21 @@ const MessageViewer = ({ media, messages, limit }) => {
     }
   };
 
-  const addTags = tags => {
+  const addTags = tag => {
     // add tags to all currently selected messages
     // setSelectedMessages(selectedMessages => [...newMessages]);
-    setCurrentTags(allCurrentTags => [...tags]);
-    console.log(tags);
-  };
-
-  useEffect(() => {
-    if (selectedMessages.length !== 0) {
-      console.log('update tags');
-      let newTags = allCurrentTags;
-      selectedMessages.forEach(selectedMsg => {
-        messages.forEach(msg => {
-          if (msg.id === selectedMsg) {
-            msg.tags = newTags; /*  */
-          }
-        });
+    let newTags = allCurrentTags;
+    selectedMessages.forEach(selectedMsg => {
+      displayedMessages.forEach(msg => {
+        if (msg.id === selectedMsg) {
+          msg.tags = tag;
+          newTags = msg.tags;
+        }
       });
-    }
-  }, [setCurrentTags, allCurrentTags]);
+    });
+
+    setCurrentTags(allCurrentTags => [...newTags]);
+  };
 
   return (
     <S.Container>
@@ -100,11 +116,12 @@ const MessageViewer = ({ media, messages, limit }) => {
         addTags={addTags}
       />
 
-      {messages.length > 0 && (
+      {displayedMessages.length > 0 && (
         <S.P>
           <S.Info>
             Showing {isLimited ? 'first' : 'all'} {renderedMessages.length}{' '}
-            messages {isLimited && <span>(out of {messages.length})</span>}
+            messages{' '}
+            {isLimited && <span>(out of {displayedMessages.length})</span>}
           </S.Info>
         </S.P>
       )}
