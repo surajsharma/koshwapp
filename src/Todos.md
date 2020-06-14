@@ -8,14 +8,8 @@
 ## Required
 
 - Video/Mp4 display
-- Checkbox for each message
-
-  - state update on toggle
-  - CAB toggle on state change
 
 - Context menu and buttons
-  - make sticky
   - Perform Upload on message(s)
-  - Perform Delete on message(s)
   - Link messages(s)
   - Unlink messages(s)

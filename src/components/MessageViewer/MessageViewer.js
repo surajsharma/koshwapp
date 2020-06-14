@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Message from '../Message/Message';
@@ -36,21 +36,33 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
 
   const updateSelectedMessages = (m, check) => {
     let newMessages = selectedMessages;
+    let newDisplayedMessages = displayedMessages;
+
     if (check) {
       if (selectedMessages.indexOf(m) === -1) {
         newMessages = newMessages.concat(m);
+        displayedMessages.forEach(msg => {
+          if (msg.id === m) {
+            msg.selected = !check;
+          }
+        });
       }
     }
 
     if (!check) {
       if (newMessages.indexOf(m) !== -1) {
         newMessages.splice(newMessages.indexOf(m), 1);
+        displayedMessages.forEach(msg => {
+          if (msg.id === m) {
+            msg.selected = !check;
+          }
+        });
       }
       if (newMessages.length === 0) {
         setShowTaggingWindow(false);
       }
     }
-    console.log('new message s/u');
+    setDisplayedMessages(newDisplayedMessages);
     setSelectedMessages(selectedMessages => [...newMessages]);
   };
 
@@ -62,9 +74,9 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
     console.log(e);
   };
 
-  useEffect(() => {
-    console.log('rerender');
-  }, [displayedMessages]);
+  // useEffect(() => {
+  // }, [displayedMessages, selectedMessages]);
+
   const deleteHandler = e => {
     let newMessages = displayedMessages;
     selectedMessages.forEach(selectedMsg => {
@@ -140,8 +152,9 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
 
           return (
             <Message
-              key={i} // eslint-disable-line react/no-array-index-key
+              key={message.id} // eslint-disable-line react/no-array-index-key
               selectedMessages={selectedMessages}
+              selected={message.selected}
               onselect={updateSelectedMessages}
               message={message}
               media={attachedMedia}

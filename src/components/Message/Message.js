@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../CheckBox/CheckBox';
 import * as S from './style';
@@ -18,18 +18,17 @@ const Message = ({
   isActiveUser,
   sameAuthorAsPrevious,
   onselect,
+  selected,
 }) => {
-  const [check, setCheck] = useState(true);
-
   const isSystem = message.author === 'System';
+
   const dateTime = message.date
     .toISOString()
     .slice(0, 19)
     .replace('T', ' ');
 
-  const handleCheck = () => {
-    setCheck(!check);
-    onselect(message.id, check);
+  const handleCheck = event => {
+    onselect(message.id, event.currentTarget.checked);
   };
 
   return (
@@ -40,7 +39,11 @@ const Message = ({
         sameAuthorAsPrevious={sameAuthorAsPrevious}
       >
         <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
-          <Checkbox checked={check} onChange={handleCheck} />{' '}
+          <Checkbox
+            checked={selected}
+            defaultChecked={false}
+            onChange={handleCheck}
+          />
           <S.Wrapper>
             <S.MessageTop>
               {!isSystem && !sameAuthorAsPrevious && (
