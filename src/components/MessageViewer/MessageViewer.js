@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Message from '../Message/Message';
@@ -35,6 +35,28 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
   const renderedMessages = displayedMessages.slice(0, limit);
   const isLimited = renderedMessages.length !== displayedMessages.length;
 
+  const getAllSelectedTags = selectedMessages => {
+    let allTags = [];
+    selectedMessages.forEach(msg => {
+      displayedMessages.forEach(m => {
+        if (m.id === msg) {
+          if (m.tags.length) {
+            m.tags.forEach(tag => {
+              if (!allTags.includes(tag)) {
+                allTags.push(tag);
+              }
+            });
+          }
+        }
+      });
+    });
+    return allTags;
+  };
+
+  useEffect(() => {
+    setCurrentTags(allCurrentTags => getAllSelectedTags(selectedMessages));
+  }, [allCurrentTags, selectedMessages, setCurrentTags, getAllSelectedTags]);
+
   const updateSelectedMessages = (m, check) => {
     let newMessages = selectedMessages;
     let newDisplayedMessages = displayedMessages;
@@ -61,6 +83,7 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
       }
       if (newMessages.length === 0) {
         setShowTaggingWindow(false);
+        setCurrentTags(allCurrentTags => []);
       }
     }
     setDisplayedMessages(newDisplayedMessages);
@@ -107,6 +130,7 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
     });
     setDisplayedMessages(newMessages);
     setSelectedMessages(selectedMessages => []);
+    setCurrentTags(allCurrentTags => []);
     Swal.fire('Messages Deleted');
   };
 
