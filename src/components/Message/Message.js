@@ -64,7 +64,7 @@ const Message = ({
         {tags && (
           <S.Tagger dateTime={dateTime}>
             {tags.map(t => (
-              <S.Tag>{t}</S.Tag>
+              <S.Tag key={t}>{t}</S.Tag>
             ))}
           </S.Tagger>
         )}

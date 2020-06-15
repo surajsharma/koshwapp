@@ -11,6 +11,8 @@ const Container = styled.div`
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   @media (min-width: 700px) {
     padding: 2% 10%;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
   }
 `;
 

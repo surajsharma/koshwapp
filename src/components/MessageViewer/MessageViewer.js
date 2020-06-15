@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
 import Message from '../Message/Message';
 import * as S from './style';
 
 import { authorColors } from '../../utils/colors';
 import ContextActionBar from '../ContextActionsBar/ContextActionBar';
-import TaggingWindow from '../TaggingWindow/TaggingWindow';
-import Swal from 'sweetalert2';
 
 let setDisplayedMessagesFlag = false;
 
@@ -164,10 +163,7 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
         deleteHandler={deleteHandler}
         tagHandler={tagHandler}
         visible={selectedMessages.length <= 0 ? false : true}
-      />
-
-      <TaggingWindow
-        visible={showTaggingWindow && selectedMessages.length !== 0}
+        taggingVisible={showTaggingWindow && selectedMessages.length !== 0}
         tags={allCurrentTags}
         addTags={addTags}
       />

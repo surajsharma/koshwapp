@@ -6,6 +6,10 @@ const Container = styled.div`
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+
   @media (min-width: 700px) {
     padding: 0 10%;
   }

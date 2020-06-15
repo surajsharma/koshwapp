@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as S from './style';
+import TaggingWindow from '../TaggingWindow/TaggingWindow';
 
 const ContextActionBar = ({
   visible,
@@ -8,6 +9,9 @@ const ContextActionBar = ({
   linkHandler,
   deleteHandler,
   tagHandler,
+  taggingVisible,
+  tags,
+  addTags,
 }) => {
   return visible ? (
     <S.Container>
@@ -17,6 +21,11 @@ const ContextActionBar = ({
       <S.Button secondary onClick={tagHandler}>
         Tags
       </S.Button>
+      <TaggingWindow
+        taggingVisible={taggingVisible}
+        tags={tags}
+        addTags={addTags}
+      />
     </S.Container>
   ) : null;
 };

@@ -5,8 +5,8 @@ import TagsInput from 'react-tagsinput';
 import * as S from './style';
 import 'react-tagsinput/react-tagsinput.css';
 
-const TaggingWindow = ({ visible, tags, addTags }) => {
-  return visible ? (
+const TaggingWindow = ({ taggingVisible, tags, addTags }) => {
+  return taggingVisible ? (
     <S.Container>
       <TagsInput value={tags} onChange={e => addTags(e)} />
       <p>Type a tag name and press enter</p>
@@ -15,7 +15,7 @@ const TaggingWindow = ({ visible, tags, addTags }) => {
 };
 
 TaggingWindow.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  taggingVisible: PropTypes.bool.isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   addTags: PropTypes.func.isRequired,
 };
