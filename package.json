@@ -13,6 +13,7 @@
     "react-scripts": "3.4.0",
     "react-tagsinput": "^3.19.0",
     "styled-components": "5.0.0",
+    "sweetalert2": "^9.15.1",
     "uuidv4": "^6.1.0",
     "whatsapp-chat-parser": "2.0.8"
   },

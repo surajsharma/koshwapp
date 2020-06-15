@@ -7,6 +7,7 @@ import * as S from './style';
 import { authorColors } from '../../utils/colors';
 import ContextActionBar from '../ContextActionsBar/ContextActionBar';
 import TaggingWindow from '../TaggingWindow/TaggingWindow';
+import Swal from 'sweetalert2';
 
 let setDisplayedMessagesFlag = false;
 
@@ -68,6 +69,11 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
 
   const uploadHandler = e => {
     console.log(e);
+    if (selectedMessages.length > 0) {
+      Swal.fire('Uploading messages...');
+    } else {
+      Swal.fire('Please select some messages to upload');
+    }
   };
 
   const linkHandler = e => {
@@ -88,6 +94,7 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
     });
     setDisplayedMessages(newMessages);
     setSelectedMessages(selectedMessages => []);
+    Swal.fire('Messages Deleted');
   };
 
   const tagHandler = e => {

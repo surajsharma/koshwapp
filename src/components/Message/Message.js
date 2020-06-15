@@ -32,37 +32,35 @@ const Message = ({
   };
 
   return (
-    <>
-      <S.Item
-        isSystem={isSystem}
-        isActiveUser={isActiveUser}
-        sameAuthorAsPrevious={sameAuthorAsPrevious}
-      >
-        <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
-          <Checkbox
-            checked={selected}
-            defaultChecked={false}
-            onChange={handleCheck}
-          />
-          <S.Wrapper>
-            <S.MessageTop>
-              {!isSystem && !sameAuthorAsPrevious && (
-                <S.Author color={color}>{message.author}</S.Author>
-              )}
-            </S.MessageTop>
-            {media ? <img src={media.src} alt="img" width="200px" /> : null}
-            <S.Message>{message.message}</S.Message>
-          </S.Wrapper>
-          {!isSystem && (
-            <S.Date dateTime={dateTime}>
-              {new Intl.DateTimeFormat('default', intlOptions).format(
-                message.date,
-              )}
-            </S.Date>
-          )}
-        </S.Bubble>
-      </S.Item>
-    </>
+    <S.Item
+      isSystem={isSystem}
+      isActiveUser={isActiveUser}
+      sameAuthorAsPrevious={sameAuthorAsPrevious}
+    >
+      <S.Bubble isSystem={isSystem} isActiveUser={isActiveUser}>
+        <S.Wrapper>
+          <S.MessageTop>
+            <Checkbox
+              checked={selected}
+              defaultChecked={false}
+              onChange={handleCheck}
+            />
+            {!isSystem && !sameAuthorAsPrevious && (
+              <S.Author color={color}>{message.author}</S.Author>
+            )}
+          </S.MessageTop>
+          {media ? <img src={media.src} alt="img" width="200px" /> : null}
+          <S.Message>{message.message}</S.Message>
+        </S.Wrapper>
+        {!isSystem && (
+          <S.Date dateTime={dateTime}>
+            {new Intl.DateTimeFormat('default', intlOptions).format(
+              message.date,
+            )}
+          </S.Date>
+        )}
+      </S.Bubble>
+    </S.Item>
   );
 };
 

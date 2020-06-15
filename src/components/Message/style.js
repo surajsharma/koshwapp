@@ -4,6 +4,7 @@ import { overflowBreakWord, messageBaseStyle } from '../../utils/styles';
 import {
   systemBackgroundColor,
   activeUserBackgroundColor,
+  whatsappGreenDarkColor,
 } from '../../utils/colors';
 
 const Item = styled.li`
@@ -86,5 +87,7 @@ const MessageTop = styled.div`
   justify-content: space-between;
   flex-direction: row;
   padding: 5px 0 5px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px dotted ${whatsappGreenDarkColor};
 `;
 export { Item, Bubble, Wrapper, Author, Message, Date, MessageTop };
