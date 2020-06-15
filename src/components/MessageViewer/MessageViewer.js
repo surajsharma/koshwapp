@@ -197,6 +197,7 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
           return (
             <Message
               key={message.id} // eslint-disable-line react/no-array-index-key
+              tags={message.tags}
               selectedMessages={selectedMessages}
               selected={message.selected}
               onselect={updateSelectedMessages}

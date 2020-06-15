@@ -105,7 +105,7 @@ const App = () => {
   useEffect(() => {
     if (messages.length && !messagesHaveIds) {
       messages.forEach(message => {
-        message.tags = {};
+        message.tags = [];
         message.linksTo = [];
         message.selected = false;
         message.id = uuid();

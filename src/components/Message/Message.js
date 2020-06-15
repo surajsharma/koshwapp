@@ -19,6 +19,7 @@ const Message = ({
   sameAuthorAsPrevious,
   onselect,
   selected,
+  tags,
 }) => {
   const isSystem = message.author === 'System';
 
@@ -59,6 +60,14 @@ const Message = ({
             )}
           </S.Date>
         )}
+
+        {tags && (
+          <S.Tagger dateTime={dateTime}>
+            {tags.map(t => (
+              <S.Tag>{t}</S.Tag>
+            ))}
+          </S.Tagger>
+        )}
       </S.Bubble>
     </S.Item>
   );
@@ -73,6 +82,7 @@ Message.propTypes = {
   media: PropTypes.objectOf(PropTypes.object),
   color: PropTypes.string,
   isActiveUser: PropTypes.bool,
+  tags: PropTypes.arrayOf(PropTypes.string),
   sameAuthorAsPrevious: PropTypes.bool,
 };
 
@@ -81,6 +91,7 @@ Message.defaultProps = {
   isActiveUser: false,
   sameAuthorAsPrevious: false,
   media: null,
+  tags: null,
 };
 
 export default Message;

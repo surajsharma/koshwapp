@@ -83,6 +83,21 @@ const Date = styled.time`
   }
 `;
 
+const Tagger = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  font-size: 0.75em;
+  align-items: baseline;
+`;
+
+const Tag = styled.div`
+  margin-left: 5px;
+  padding: 5px;
+  font-color: ${whatsappGreenDarkColor};
+  background-color: #cde79c;
+  border-radius: 5px;
+`;
 const MessageTop = styled.div`
   display: flex;
   justify-content: space-between;
@@ -91,4 +106,14 @@ const MessageTop = styled.div`
   margin-bottom: 10px;
   border-bottom: 1px dotted ${whatsappGreenDarkColor};
 `;
-export { Item, Bubble, Wrapper, Author, Message, Date, MessageTop };
+export {
+  Item,
+  Bubble,
+  Wrapper,
+  Author,
+  Message,
+  Date,
+  MessageTop,
+  Tag,
+  Tagger,
+};
