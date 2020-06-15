@@ -3,6 +3,9 @@ import * as C from '../../utils/colors';
 
 const Container = styled.div`
   background: #f5eee5;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   @media (min-width: 700px) {
     padding: 0 10%;
   }
