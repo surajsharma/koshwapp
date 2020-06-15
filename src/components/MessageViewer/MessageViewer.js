@@ -77,11 +77,24 @@ const MessageViewer = ({ media, messages, limit, deleteMessages }) => {
   };
 
   const linkHandler = e => {
-    console.log(e);
-  };
+    let newMessages = selectedMessages;
+    let newDisplayedMessages = displayedMessages;
 
-  // useEffect(() => {
-  // }, [displayedMessages, selectedMessages]);
+    console.log(e);
+    if (newMessages.length <= 1) {
+      Swal.fire('Please select more than one messages to link');
+    } else {
+      newDisplayedMessages.forEach(sm => {
+        let linkedMessages = [];
+        newDisplayedMessages.forEach(sm2 => {
+          linkedMessages.push(sm2.id);
+        });
+        sm.linksTo = linkedMessages;
+      });
+      setDisplayedMessages(newDisplayedMessages);
+      Swal.fire('Messages Linked');
+    }
+  };
 
   const deleteHandler = e => {
     let newMessages = displayedMessages;
