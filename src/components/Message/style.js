@@ -30,7 +30,7 @@ const Item = styled.li`
 
 const Bubble = styled.div`
   ${messageBaseStyle}
-
+  flex-direction: column;
   background-color: white;
   ${props =>
     props.isSystem &&
@@ -76,6 +76,7 @@ const Date = styled.time`
   white-space: nowrap;
   font-size: 75%;
   opacity: 0.6;
+  margin-top: 0.75rem;
 
   @media (max-width: 699px) {
     margin-top: 0.25rem;
