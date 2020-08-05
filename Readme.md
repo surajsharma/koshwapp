@@ -1,4 +1,4 @@
-![Koshwapp](https://puu.sh/FWAqD/d2ef62a2d2.gif)
+![Koshwapp](https://puu.sh/FWALG/25d2d735e4.gif)
 
 Installation
 
